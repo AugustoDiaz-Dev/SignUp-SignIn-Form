@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CFormInput, CFormCheck } from '@coreui/react';
 
 const SignUp = () => {
@@ -10,12 +10,21 @@ const SignUp = () => {
     const [password, setPassword] = useState('');
     const [checkbox, setCheckbox] = useState(true);
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const [error, setError] = useState(null);
+
+    function handleSubmit(e) {
         e.preventDefault();
-        const blog = {
-            firstName, lastName, email, password, checkbox
+
+        if (error) {
+            setError(error);
+        } else {
+            const signUp = {
+                firstName, lastName, email, password, checkbox,
+            }
+            console.log(signUp);
+            navigate('/signin', { replace: true })
         }
-        console.log(blog)
     }
 
     return (
@@ -38,7 +47,7 @@ const SignUp = () => {
                     floatingLabel="Email address" placeholder="augustordiaz@example.com"
                     value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                <CFormInput type="password" className='mb-3 p-1' id="password"
+                <CFormInput type="password" className='form-control mb-3 p-1' id="password"
                     floatingLabel="Password" placeholder="Password"
                     value={password} onChange={(e) => setPassword(e.target.value)} />
 
@@ -50,7 +59,7 @@ const SignUp = () => {
                     <Link to="/privacy" className='color_5 router-link'> Privacy Policy </Link>
                 </label>
 
-                <button className='swatch_5 color_white mb-3'>Create account</button>
+                <button type='submit' className='swatch_5 color_white mb-3'>Create account</button>
             </form>
 
             {/* Form Output */}
